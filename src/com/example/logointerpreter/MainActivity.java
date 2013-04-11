@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
 	
 	private MainGamePanel panel;
 	private EditText editText;
-	private Parser parser;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 		editText = (EditText) findViewById(R.id.search);
 		editText.setVisibility(View.GONE);
 		
-		parser = new Parser();
+		
 		
 	}
 
@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
 			//tu bêdzie wyœwieta³ wiadomoœæ, ¿e sk³adnia jest niepoprawna
 		}
 		else {
-			LinkedList<String> commandList = parser.doInBackground(editText.getText());
+			 new Parser().execute(editText.getText());
 			//editText.setText("");
 		}
 		
