@@ -6,40 +6,71 @@ import android.os.AsyncTask;
 import android.text.Editable;
 import com.example.exceptions.LogoScannerException;;
 
-class Parser extends AsyncTask<Editable, Integer, LinkedList<String>> {
+class Parser extends AsyncTask<Void, Integer, LinkedList<String>> {
 	
+	public Parser() {
+		
+	}
 	Token[] reserved = { Token.FORWARD, Token.BACK, Token.RIGHT, Token.LEFT, Token.REPEAT };
 	 
     private String rawContents;
     private String scanBuffer;
     private int idx;
     private char ch;
+    private LinkedList<String> tokens = new LinkedList<String>();
     
-	public enum Token
-	{
-	    [TokenAsText("REPEAT")]
-	    REPEAT,
-	    [TokenAsText("FORWARD")]
-	    FORWARD,
-	    [TokenAsText("BACK")]
-	    BACK,
-	    [TokenAsText("LEFT")]
-	    LEFT,
-	    [TokenAsText("RIGHT")]
-	    RIGHT,
-	    [TokenAsText("NUMBER")]
-	    NUMBER,
-	    [TokenAsText("[")]
-	    LBRACKET,
-	    [TokenAsText("]")]
-	    RBRACKET,
-	    EOF
-	}
+    public enum Token {
+        REPEAT("REPEAT"),
+        FORWARD("FORWARD"),
+        BACK("BACK"),
+	    LEFT("LEFT"),
+	    RIGHT("RIGHT"),
+	    NUMBER("NUMBER"),
+	    LBRACKET("["),
+	    RBRACKET("]"),
+	    EOF("EOF");
+       
+        private Token(final String text) {
+            this.text = text;
+        }
+
+        private final String text;
+
+        @Override
+        public String toString() {
+            return text;
+        }
+        
+        public static boolean contains(String test) {
+
+            for (Token c : Token.values()) {
+                if (c.name().equals(test)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+    
 	
 	@Override
-	protected LinkedList<String> doInBackground(Editable... code) {
-		rawContents = code[0].toString();
-		return null;
+	protected LinkedList<String> doInBackground(Void... params) {
+		String token;
+		while (true) {
+			if (MainActivity.taskQueue.isEmpty()==false) {
+				rawContents = MainActivity.taskQueue.getFirst().toString();
+				try {
+					while ((token = Scan().toString())!="EOF") {
+						tokens.add(token);
+					}
+				}
+				catch(LogoScannerException e) {
+					
+				}
+			}
+			
+		}
 	}
 	
 	@Override
@@ -55,7 +86,7 @@ class Parser extends AsyncTask<Editable, Integer, LinkedList<String>> {
 		return commandList;
 	}
  
-    public Token Scan()
+    public Token Scan() throws LogoScannerException
     {
         while (idx < rawContents.length())
         {
@@ -100,10 +131,10 @@ class Parser extends AsyncTask<Editable, Integer, LinkedList<String>> {
                     }
                     else break;
                 }
-                Token lookup;
-                if (LookupReserved(scanBuffer, lookup))
+                
+                if (Token.contains(scanBuffer))
                 {
-                    return lookup;
+                    return Token.valueOf(scanBuffer);
                 }
                 LexicalError();
             }
@@ -119,15 +150,9 @@ class Parser extends AsyncTask<Editable, Integer, LinkedList<String>> {
         return Token.EOF;
     }
  
-    private void LexicalError()
+    private void LexicalError() throws LogoScannerException
     {
         throw new LogoScannerException(String.format("Lexical error at '{0}' ('{1}')", ch, scanBuffer));
-    }
- 
-    private boolean LookupReserved(String s, Token lookup)
-    {
-        lookup = TokenHelper.LookupAsText(s);
-        return reserved.Contains(lookup);
     }
     
 	

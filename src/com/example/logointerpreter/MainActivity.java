@@ -22,7 +22,7 @@ public class MainActivity extends Activity {
 	
 	private MainGamePanel panel;
 	private EditText editText;
-	
+	static LinkedList<Editable> taskQueue;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +36,9 @@ public class MainActivity extends Activity {
 		editText = (EditText) findViewById(R.id.search);
 		editText.setVisibility(View.GONE);
 		
+		taskQueue = new LinkedList<Editable>();
 		
-		
+		new Parser().execute();	
 	}
 
 	@Override
@@ -58,13 +59,11 @@ public class MainActivity extends Activity {
 	
 	public void Parse(View view) {
 		if (editText.getText().toString().matches("")) {
-			//tu bêdzie wyœwieta³ wiadomoœæ, ¿e sk³adnia jest niepoprawna
+			
 		}
-		else {
-			 new Parser().execute(editText.getText());
-			//editText.setText("");
+		else { 
+			taskQueue.add(editText.getText());
 		}
-		
 	}
 	
 	public void Reset(View view) {
