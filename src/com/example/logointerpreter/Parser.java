@@ -1,159 +1,110 @@
 package com.example.logointerpreter;
 
 import java.util.LinkedList;
+import com.example.logointerpreter.Token;
 
 import android.os.AsyncTask;
 import android.text.Editable;
-import com.example.exceptions.LogoScannerException;;
+import com.example.exceptions.*;
 
 class Parser extends AsyncTask<Void, Integer, LinkedList<String>> {
 	
-	public Parser() {
-		
-	}
-	Token[] reserved = { Token.FORWARD, Token.BACK, Token.RIGHT, Token.LEFT, Token.REPEAT };
-	 
-    private String rawContents;
-    private String scanBuffer;
-    private int idx;
-    private char ch;
-    private LinkedList<String> tokens = new LinkedList<String>();
+    private Scanner scanner;
     
-    public enum Token {
-        REPEAT("REPEAT"),
-        FORWARD("FORWARD"),
-        BACK("BACK"),
-	    LEFT("LEFT"),
-	    RIGHT("RIGHT"),
-	    NUMBER("NUMBER"),
-	    LBRACKET("["),
-	    RBRACKET("]"),
-	    EOF("EOF");
-       
-        private Token(final String text) {
-            this.text = text;
-        }
-
-        private final String text;
-
-        @Override
-        public String toString() {
-            return text;
-        }
+    public Parser()
+    {
         
-        public static boolean contains(String test) {
-
-            for (Token c : Token.values()) {
-                if (c.name().equals(test)) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
     }
     
-	
-	@Override
+    @Override
 	protected LinkedList<String> doInBackground(Void... params) {
 		String token;
 		while (true) {
 			if (MainActivity.taskQueue.isEmpty()==false) {
-				rawContents = MainActivity.taskQueue.getFirst().toString();
-				try {
-					while ((token = Scan().toString())!="EOF") {
-						tokens.add(token);
-					}
-				}
-				catch(LogoScannerException e) {
-					
-				}
+				scanner = new Scanner(MainActivity.taskQueue.getFirst().toString());
+				ParseLogoProgram();
 			}
 			
 		}
 	}
-	
-	@Override
+    
+    @Override
 	protected void onProgressUpdate(Integer... values) { //
 		super.onProgressUpdate(values);
 		// Not used in this case
 	}
-	
-	
-	private LinkedList<String> parse(Editable code) {
-		LinkedList<String> commandList = new LinkedList<String>();
-		
-		return commandList;
-	}
- 
-    public Token Scan() throws LogoScannerException
+    
+    
+    public void ParseLogoProgram()
     {
-        while (idx < rawContents.length())
-        {
-            ch = rawContents.charAt(idx);
-            if (ch == '[')
-            {
-                idx++;
-                return Token.LBRACKET;
-            }
-            else if (ch == ']')
-            {
-                idx++;
-                return Token.RBRACKET;
-            }
-            else if (Character.isDigit(ch))
-            {
-                scanBuffer = new Character(ch).toString();
-                idx++;
-                while (idx < rawContents.length())
-                {
-                    ch = rawContents.charAt(idx);
-                    if (Character.isDigit(ch))
-                    {
-                        scanBuffer += ch;
-                        idx++;
-                    }
-                    else break;
-                }
-                return Token.NUMBER;
-            }
-            else if (Character.isLetter(ch))
-            {
-                scanBuffer = new Character(ch).toString();
-                idx++;
-                while (idx < rawContents.length())
-                {
-                    ch = rawContents.charAt(idx);
-                    if (Character.isLetter(ch))
-                    {
-                        scanBuffer += ch;
-                        idx++;
-                    }
-                    else break;
-                }
-                
-                if (Token.contains(scanBuffer))
-                {
-                    return Token.valueOf(scanBuffer);
-                }
-                LexicalError();
-            }
-            else if (Character.isWhitespace(ch))
-            {
-                idx++;
-            }
-            else
-            {
-                LexicalError();
-            }
-        }
-        return Token.EOF;
+        try {
+			ParseLogoSentence();
+		
+	        while (true)
+	        {
+	            switch(scanner.NextToken())
+	            {
+	                case FORWARD:
+	                case BACK:
+	                case LEFT:
+	                case RIGHT:
+	                case REPEAT:
+	                    ParseLogoSentence();
+	                    break;
+	 
+	                default:
+	                    Match(Token.EOF);
+	                    return;
+	            }
+	        }
+        } catch (SyntaxErrorException e) {
+			// TODO Auto-generated catch block
+			return;
+		} catch (LogoScannerException e) {
+			// TODO Auto-generated catch block
+			return;
+		}
     }
  
-    private void LexicalError() throws LogoScannerException
+    
+    private void ParseLogoSentence() throws SyntaxErrorException, LogoScannerException
     {
-        throw new LogoScannerException(String.format("Lexical error at '{0}' ('{1}')", ch, scanBuffer));
+        Token nextToken = scanner.NextToken();
+        switch(nextToken)
+        {
+            case FORWARD:
+            case BACK:
+            case LEFT:
+            case RIGHT:
+                Match(nextToken);
+                Match(Token.NUMBER);
+                break;
+ 
+            case REPEAT:
+                Match(nextToken);
+                Match(Token.NUMBER);
+                Match(Token.LBRACKET);
+                ParseLogoSentence();
+                Match(Token.RBRACKET);
+                break;
+ 
+            default:
+                SyntaxError();
+        }
+    }
+ 
+    private void Match(Token token) throws SyntaxErrorException, LogoScannerException
+    {
+        Token nextToken = scanner.Scan();
+        if (nextToken != token)
+        {
+            SyntaxError();
+        }
     }
     
-	
+    private void SyntaxError() throws SyntaxErrorException {
+    	throw new SyntaxErrorException("Syntax Error");
+    }
+ 
 }
+	
