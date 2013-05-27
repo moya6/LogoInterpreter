@@ -63,7 +63,7 @@ public class MainThread extends Thread {
 					synchronized ( surfaceHolder ) {
 						beginTime = System.currentTimeMillis();
 						framesSkipped = 0;
-						this.gamePanel.update();
+						
 						this.gamePanel.render(canvas);
 						
 						synchronized (mPauseLock) {
@@ -90,10 +90,7 @@ public class MainThread extends Thread {
 						}
 						 
 						while (sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS) {
-							// we need to catch up
-						    // update without rendering
-						    this.gamePanel.update();
-						    // add frame period to check if in next frame
+							
 						    sleepTime += FRAME_PERIOD;
 						    framesSkipped++;
 						}

@@ -66,18 +66,7 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
 	protected void render(Canvas canvas) {
 	}
 
-	public void update() {
-		
-	}
 	
-	
-	public void checkCollisions() {
-		
-	}
-
-	public void handleColisions() {
-	
-	}
 
 
 }

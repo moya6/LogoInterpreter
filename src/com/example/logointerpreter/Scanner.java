@@ -10,7 +10,7 @@ public class Scanner {
 	Token[] reserved = { Token.FORWARD, Token.BACK, Token.RIGHT, Token.LEFT, Token.REPEAT };
 	 
     private String rawContents;
-    private String scanBuffer;
+    public String scanBuffer;
     private int idx;
     private char ch;
     private LinkedList<String> tokens = new LinkedList<String>();
@@ -30,17 +30,16 @@ public class Scanner {
         return result;
     }
     
-	private LinkedList<String> parse(Editable code) {
-		LinkedList<String> commandList = new LinkedList<String>();
-		
-		return commandList;
-	}
  
     public Token Scan() throws LogoScannerException
     {
+    	
         while (idx < rawContents.length())
         {
             ch = rawContents.charAt(idx);
+            if (ch == '$') {
+            	return Token.EOF;
+            }
             if (ch == '[')
             {
                 idx++;

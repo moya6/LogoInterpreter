@@ -15,6 +15,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
+
+import com.example.logocommand.LogoCommand;
 import com.example.logointerpreter.Parser;
 
 
@@ -23,6 +25,7 @@ public class MainActivity extends Activity {
 	private MainGamePanel panel;
 	private EditText editText;
 	static LinkedList<Editable> taskQueue;
+	static LinkedList<LogoCommand> commands;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,9 @@ public class MainActivity extends Activity {
 		editText.setVisibility(View.GONE);
 		
 		taskQueue = new LinkedList<Editable>();
+		commands = new LinkedList<LogoCommand>();
 		
-		new Parser().execute();	
+		
 	}
 
 	@Override
@@ -62,7 +66,13 @@ public class MainActivity extends Activity {
 			
 		}
 		else { 
+			commands.clear();
 			taskQueue.add(editText.getText());
+			editText.setText("");
+			Parser p = new Parser();
+			p.execute();
+			
+			
 		}
 	}
 	
