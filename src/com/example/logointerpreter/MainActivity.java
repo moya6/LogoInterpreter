@@ -63,7 +63,6 @@ public class MainActivity extends Activity {
 	
 	public void Parse(View view) {
 		if (editText.getText().toString().matches("")) {
-			
 		}
 		else { 
 			commands.clear();

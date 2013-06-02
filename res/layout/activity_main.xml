@@ -4,13 +4,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" />
-
     <Button
         android:id="@+id/button2"
         style="?android:attr/buttonStyleSmall"
@@ -54,5 +47,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:text="Stop" />
+
+    <com.example.logointerpreter.MainGamePanel
+        android:id="@+id/mainGamePanel1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/button1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/button4"
+        android:visibility="visible" />
 
 </RelativeLayout>
