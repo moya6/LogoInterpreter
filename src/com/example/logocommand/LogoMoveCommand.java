@@ -2,7 +2,7 @@ package com.example.logocommand;
 
 import com.example.logointerpreter.NumberRecord;
 
-public class LogoMoveCommand implements LogoCommand {
+public class LogoMoveCommand extends LogoCommand {
 	private long distance;
 	
 	public LogoMoveCommand(NumberRecord numberRecord)

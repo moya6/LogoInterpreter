@@ -66,6 +66,11 @@ class Parser extends AsyncTask<Void, Integer, Void> {
 	 
 	                default:
 	                    Match(Token.EOF);
+	                    for (LogoCommand c : MainActivity.commands) {
+	        				MainActivity.turtle.takeCommand(c);
+	        				
+	        			}
+	                    MainActivity.commands.clear();
 	                    return;
 	            }
 	        }
@@ -116,19 +121,7 @@ class Parser extends AsyncTask<Void, Integer, Void> {
                 SyntaxError();
         }
     }
-    
-
-    
-    /*private LinkedList<LogoCommand> ParseLogoSentences() throws LogoScannerException
-	{
-    	LinkedList<LogoCommand> logoMainActivity.MainActivity.commands = new LinkedList<LogoCommand>();
-		logoMainActivity.MainActivity.commands.add(ParseLogoSentence());
-		for (Token token = scanner.NextToken(); IsSentencePrefix(token); token = scanner.NextToken())
-		{
-			result.Add(ParseLogoSentence());
-		}
-	}*/
-    
+   
     private void ParseLogoRepeatSentences(long times) throws SyntaxErrorException, LogoScannerException {
     	LinkedList<LogoCommand> tmp = new LinkedList<LogoCommand>();
     	
@@ -137,7 +130,12 @@ class Parser extends AsyncTask<Void, Integer, Void> {
 	        switch(nextToken)
 	        {
 	        	case RBRACKET:
-	        		MainActivity.commands.add(new LogoRepeatCommand(tmp, times));
+	        		for (int i=0;i<times;i++) {
+	        			for (LogoCommand c : tmp) {
+	        				MainActivity.commands.add(c);
+	        			}
+	        		}
+	        		
 	        		System.out.println("doda³em do repeat");
 	        		return;
 	            case FORWARD:

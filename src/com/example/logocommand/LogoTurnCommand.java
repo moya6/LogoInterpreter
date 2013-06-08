@@ -2,7 +2,7 @@ package com.example.logocommand;
 
 import com.example.logointerpreter.NumberRecord;
 
-public class LogoTurnCommand implements LogoCommand {
+public class LogoTurnCommand extends LogoCommand {
 private long angle;
 	
 	public LogoTurnCommand(NumberRecord numberRecord)

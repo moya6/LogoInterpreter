@@ -1,5 +1,7 @@
 package com.example.turtle;
 
+import com.example.logocommand.LogoCommand;
+
 public class TurtleSituation implements Cloneable {
 
 		private long angle;
@@ -17,7 +19,7 @@ public class TurtleSituation implements Cloneable {
 		}
 		
 		public void setAngle(long angle) {
-			this.angle = angle;
+			this.angle += angle;
 			System.out.println("changed angle to "+ angle);
 		}
 		
@@ -51,6 +53,18 @@ public class TurtleSituation implements Cloneable {
 			addX(newX);
 			addY(newY);
 			System.out.println("moved to "+ x + " " + y);
+		}
+		
+		public void takeCommand(LogoCommand command) {
+			String className = command.getClass().getSimpleName();
+			System.out.println(className);
+			if (className.equals("LogoMoveCommand")) {
+				this.setPosition(command.getDistance());
+			}
+			else if (className.equals("LogoTurnCommand")) {
+				this.setAngle(command.getAngle());
+			}
+			
 		}
 
 		

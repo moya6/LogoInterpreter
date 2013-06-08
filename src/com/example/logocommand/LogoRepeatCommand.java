@@ -2,7 +2,7 @@ package com.example.logocommand;
 
 import java.util.LinkedList;
 
-public class LogoRepeatCommand implements LogoCommand {
+public class LogoRepeatCommand extends LogoCommand {
 	private LinkedList<LogoCommand> list;
 	private long times;
 	

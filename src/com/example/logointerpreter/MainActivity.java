@@ -18,6 +18,7 @@ import android.widget.TextView.OnEditorActionListener;
 
 import com.example.logocommand.LogoCommand;
 import com.example.logointerpreter.Parser;
+import com.example.turtle.TurtleSituation;
 
 
 public class MainActivity extends Activity {
@@ -26,6 +27,7 @@ public class MainActivity extends Activity {
 	private EditText editText;
 	static LinkedList<Editable> taskQueue;
 	static LinkedList<LogoCommand> commands;
+	static TurtleSituation turtle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class MainActivity extends Activity {
 		
 		taskQueue = new LinkedList<Editable>();
 		commands = new LinkedList<LogoCommand>();
+		turtle = new TurtleSituation();
 		
 		
 	}
@@ -67,7 +70,7 @@ public class MainActivity extends Activity {
 		else { 
 			commands.clear();
 			taskQueue.add(editText.getText());
-			editText.setText("");
+			//editText.setText("");
 			Parser p = new Parser();
 			p.execute();
 			
