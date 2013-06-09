@@ -1,5 +1,6 @@
 package com.example.logointerpreter;
 
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Vector;
 
@@ -19,6 +20,39 @@ import android.view.SurfaceView;
 import android.os.Bundle;
 import android.util.AttributeSet;
 
+
+class Line {
+
+	private int x1;
+	private int x2;
+	private int y1;
+	private int y2;
+	
+    public Line(int x1, int y1, int x2, int y2) {
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+    }
+    
+    public int getX1() {
+    	return x1;
+    }
+    
+    public int getX2() {
+    	return x2;
+    }
+       
+    public int getY1() {
+    	return y1;
+    }
+       
+    public int getY2() {
+    	return y2;
+    }
+       
+}
+
 public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback  {
 
 	public MainGamePanel(Context context, AttributeSet attrs) {
@@ -26,12 +60,13 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
 		getHolder().addCallback(this);
 		setFocusable(true);
 		thread = new MainThread(getHolder(), this);
+		
 	}
 	
 	protected MainThread thread;
 	
 	TurtleSituation turtle;
-	
+	private ArrayList<Line> lines = new ArrayList<Line>();
 	private Paint textPaint;
 	private Paint rectPaint;
 	Bitmap turtleBmp = BitmapFactory.decodeResource(getResources(), R.drawable.turtle);
@@ -89,11 +124,17 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
 		}
 	}
 
+	
+
 	protected void render(Canvas canvas) {
 		
 		canvas.drawColor(Color.WHITE);
 		canvas.drawBitmap(turtleBmp, 0, 0, null);
-		canvas.drawText("Dzien: ", 2, 100, textPaint);
+		Paint p = new Paint();
+        p.setColor(Color.BLACK);
+        for (Line myLine : lines) {
+            canvas.drawLine(myLine.getX1(), myLine.getY1(), myLine.getX2(), myLine.getY2(), p);
+        }
 	}
 	
 	@Override
@@ -104,11 +145,20 @@ public class MainGamePanel extends SurfaceView implements SurfaceHolder.Callback
 	 canvas.drawColor(Color.WHITE);
 		canvas.drawBitmap(turtleBmp, 0, 0, null);
 	 //canvas.drawCircle(50, 50, 30, textPaint);
-	 
+		Paint p = new Paint();
+        p.setColor(Color.BLACK);
+        for (Line myLine : lines) {
+            canvas.drawLine(myLine.getX1(), myLine.getY1(), myLine.getX2(), myLine.getY2(), p);
+        }
 	}
 
 
-	
+	public void addLine(int x1, int y1, int x2, int y2) {
+        Line newLine = new Line(x1, y1, x2, y2);
+        lines.add(newLine);
+    }
+
 
 
 }
+

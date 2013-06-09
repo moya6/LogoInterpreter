@@ -2,9 +2,13 @@ package com.example.logointerpreter;
 
 
 import java.util.LinkedList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.Color;
 import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -28,6 +32,7 @@ public class MainActivity extends Activity {
 	static LinkedList<Editable> taskQueue;
 	static LinkedList<LogoCommand> commands;
 	static TurtleSituation turtle;
+	//private DrawView view;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,9 @@ public class MainActivity extends Activity {
 		taskQueue = new LinkedList<Editable>();
 		commands = new LinkedList<LogoCommand>();
 		turtle = new TurtleSituation();
+		//view = new DrawView(this);
+        //view.setBackgroundColor(Color.WHITE);
+        //setContentView(view);
 		
 		
 	}
@@ -68,14 +76,36 @@ public class MainActivity extends Activity {
 		if (editText.getText().toString().matches("")) {
 		}
 		else { 
+			this.panel.addLine(100,100,150,150);
+			this.panel.addLine(150,150,150,200);
+			
 			commands.clear();
 			taskQueue.add(editText.getText());
 			//editText.setText("");
 			Parser p = new Parser();
 			p.execute();
+			try {
+				p.get(10000, TimeUnit.MILLISECONDS);
+				
+				//this.panel.onDraw(this.panel.getHolder().lockCanvas());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TimeoutException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			
 			
 		}
+	}
+	
+	public void drawResults() {
+		
 	}
 	
 	public void Reset(View view) {
