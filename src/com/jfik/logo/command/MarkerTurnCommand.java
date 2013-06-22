@@ -1,11 +1,11 @@
-package com.example.logocommand;
+package com.jfik.logo.command;
 
-import com.example.logointerpreter.NumberRecord;
+import com.jfik.logo.interpreter.LogoNumber;
 
-public class LogoTurnCommand extends LogoCommand {
+public class MarkerTurnCommand extends MarkerCommand {
 private long angle;
 	
-	public LogoTurnCommand(NumberRecord numberRecord)
+	public MarkerTurnCommand(LogoNumber numberRecord)
 	{
 		angle = numberRecord.getNumber();
 	}

@@ -12,7 +12,7 @@
         />
     
     
-    <Button
+    <!-- <Button
         android:id="@+id/button2"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:text="Reset"
-        android:onClick="Reset" />
+        android:onClick="Reset" /> -->
 
     <Button
         android:id="@+id/button1"
@@ -47,16 +47,16 @@
         android:onClick="Parse"
         android:text="Parse" />
 
-    <Button
+   <!-- <Button
         android:id="@+id/button4"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Stop" />
+        android:text="Stop" /> -->
     
-        <com.example.logointerpreter.MainGamePanel
+        <!-- <com.example.logointerpreter.MainGamePanel
         android:id="@+id/mainGamePanel1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/button4"
-        android:visibility="visible" />
+        android:visibility="visible" />-->
     
 
     

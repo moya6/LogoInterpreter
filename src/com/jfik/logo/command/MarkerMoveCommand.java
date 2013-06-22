@@ -1,11 +1,11 @@
-package com.example.logocommand;
+package com.jfik.logo.command;
 
-import com.example.logointerpreter.NumberRecord;
+import com.jfik.logo.interpreter.LogoNumber;
 
-public class LogoMoveCommand extends LogoCommand {
+public class MarkerMoveCommand extends MarkerCommand {
 	private long distance;
 	
-	public LogoMoveCommand(NumberRecord numberRecord)
+	public MarkerMoveCommand(LogoNumber numberRecord)
 	{
 		distance = numberRecord.getNumber();
 	}

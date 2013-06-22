@@ -1,10 +1,10 @@
-package com.example.logointerpreter;
+package com.jfik.logo.interpreter;
 
-public class NumberRecord
+public class LogoNumber
 {
   private int number;
   
-  public NumberRecord(Token directionToken, String numberAsString)
+  public LogoNumber(Token directionToken, String numberAsString)
   {
     number = Integer.parseInt(numberAsString);
     if (directionToken == Token.BACK || directionToken == Token.RIGHT)

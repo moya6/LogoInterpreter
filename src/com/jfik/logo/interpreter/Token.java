@@ -1,4 +1,4 @@
-package com.example.logointerpreter;
+package com.jfik.logo.interpreter;
 
 public enum Token {
     REPEAT("REPEAT"),
@@ -9,7 +9,9 @@ public enum Token {
     NUMBER("NUMBER"),
     LBRACKET("["),
     RBRACKET("]"),
-    EOF("EOF");
+    EOF("EOF"),
+    CLEAR("CLEAR"),
+    COLOR("COLOR");
    
     private Token(final String text) {
         this.text = text;

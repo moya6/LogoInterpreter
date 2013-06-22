@@ -1,4 +1,4 @@
-package com.example.logointerpreter;
+package com.jfik.logo.interpreter;
 
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
@@ -8,9 +8,9 @@ public class MainThread extends Thread {
 		private Object mPauseLock = new Object();  
 		private boolean mPaused;
 		// desired fps
-		private final static int    MAX_FPS = 40;
+		private final static int    MAX_FPS = 25;
 		// maximum number of frames to be skipped
-		private final static int    MAX_FRAME_SKIPS = 5;
+		private final static int    MAX_FRAME_SKIPS = 10;
 		// the frame period
 		private final static int    FRAME_PERIOD = 1000 / MAX_FPS; 
 
@@ -44,6 +44,7 @@ public class MainThread extends Thread {
 			 
 			sleepTime = 0;
 			canvas = null;
+			
 			try {
 				canvas = this . surfaceHolder . lockCanvas ();
 				synchronized ( surfaceHolder ) {
@@ -56,6 +57,7 @@ public class MainThread extends Thread {
 				}
 			}
 			while (run) {
+				
 				if(running){
 				canvas = null ;
 				try {
